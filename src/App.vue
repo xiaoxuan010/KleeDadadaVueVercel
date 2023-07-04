@@ -2,15 +2,20 @@
 import Headers from "./components/header.vue";
 import BeautifiedDivider from "./components/beautifiedDivider.vue";
 import KleeClickCount from "./components/KleeClickCount.vue";
+import Footer from "./components/footer.vue";
+import { reactive } from "vue";
 export default {
 	components: {
 		Headers,
 		BeautifiedDivider,
 		KleeClickCount,
+		Footer,
 	},
 	data() {
 		return {
-			hello: "Hello World",
+			setting: reactive({
+				voiceMode: "0",
+			}),
 		};
 	},
 };
@@ -22,27 +27,24 @@ export default {
 		<div class="wrapper">
 			<div id="wrapper-background-filter"></div>
 			<div id="wrapper-background"></div>
-			<Headers />
+			<Headers :setting-reac="setting" />
 			<div class="content">
 				<BeautifiedDivider />
-				<h2 class="page-description">给可莉酱写的小网站，对，就是那个<del>烦人的</del>最可爱的《原神》角色！</h2>
-				<KleeClickCount />
-				<BeautifiedDivider />
+				<p class="page-description">给可莉酱写的小网站，对，就是那个<del>烦人的</del>最可爱的《原神》角色！</p>
+				<KleeClickCount :setting-reac="setting" />
 			</div>
 		</div>
+		<Footer></Footer>
 	</div>
 </template>
 
 <style>
-/* @import "../node_modules/mdui/dist/css/mdui.min.css"; */
-body {
-	background-color: rgba(233, 233, 233);
-}
 .page-container {
 	/* 底部颜色 */
 	/* background-color: white; */
 	/* font-size: 1.5em; */
 	/* 文字颜色 */
+	font-family: genshin;
 	color: #ffffff;
 	text-align: center;
 }
@@ -53,7 +55,7 @@ body {
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		background-image: url("/src/img/klee1.webp");
+		background-image: url("./img/klee1.webp");
 		background-repeat: no-repeat;
 		background-position: 50%;
 		background-size: contain;
@@ -73,9 +75,10 @@ body {
 	width: 80%;
 	margin: auto;
 }
-h2.page-description {
+.page-description {
+	font-family: genshin;
 	text-align: center;
-	font-weight: bold;
-	font-size: 1.5em;
+	/* font-weight: bold; */
+	font-size: 2rem;
 }
 </style>
