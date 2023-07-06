@@ -1,3 +1,5 @@
+<!-- 美化过后的分割线，仅做封装，无特别功能 -->
+
 <script>
 export default {};
 </script>

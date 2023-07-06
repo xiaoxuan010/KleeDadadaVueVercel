@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"mdui": "^1.0.2",
+		"vercel": "^31.0.1",
 		"vue": "^3.3.4",
 		"vue-roller": "^2.1.0"
 	},

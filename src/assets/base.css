@@ -1,17 +1,23 @@
 body {
+	/* 基础优化 */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
+	/* 全局背景颜色 */
 	background-color: rgba(233, 233, 233);
+
+	/* 禁用横向滚动 */
 	overflow-x: hidden;
+
+	/* 禁用body外研 */
 	margin: 0px;
+
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Adjusted", "Segoe UI", "Liberation Sans", "Roboto", sans-serif;
 	font-weight: 200;
 }
 
+/* 引入"genshin"字体(有版权风险) */
 @font-face {
 	font-family: "genshin";
-	src: url("../font/ys.ttf") format("ttf");
-	src: url("../font/ys.woff2") format("woff2");
-	src: url("../font/ys.woff") format("woff");
+	src: url("../font/ys.woff2") format("woff2"), url("../font/ys.ttf") format("ttf");
 }

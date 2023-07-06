@@ -127,5 +127,5 @@ dist
 .pnp.*
 
 # VSCode
-.vscode/
+.vscode/*
 .vercel

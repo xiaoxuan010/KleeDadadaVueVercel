@@ -1,14 +1,19 @@
+<!-- 页脚部分：包括角色图片、相关说明和链接等 -->
+<!-- 仅作封装，无特殊功能 -->
 <script>
 export default {};
 </script>
 
 <template>
 	<div class="footer" id="footer">
+		<!-- 可莉卡片图片 -->
 		<img class="klee-card" loading="lazy" src="../img/card_cn.webp" alt="" />
+
+		<!-- 页脚文字部分 -->
 		<div class="footer-text">
 			<p class="footer-text-title">开源地址</p>
 			<p class="footer-text-link">
-				<!--这里填写本网站的Github地址-->
+				<!-- 本项目的Github地址 -->
 				<a target="_blank" href="https://github.com/xiaoxuan010/KleeDadadaVue"> KleeDadadaVue</a>
 			</p>
 			<p class="footer-text-title">引用/致谢</p>
@@ -56,8 +61,11 @@ export default {};
 	font-size: larger;
 }
 .footer-text-link > a {
+	/* 禁用链接的下划线 */
 	text-decoration: none;
 }
+
+/* 若屏幕宽度较小，则角色卡片图片与文字为上下显示，否则为左右排布 */
 @media screen and (max-width: 1280px) {
 	.footer {
 		flex-wrap: wrap;
