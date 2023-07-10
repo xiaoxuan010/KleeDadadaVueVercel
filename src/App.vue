@@ -25,40 +25,46 @@ export default {
 				voiceMode: "0",
 				musicOn: false,
 			}),
+			// Flag：判断音乐是否已经正常加载中
 			isMusicReadyFlag: false,
 		};
 	},
 	mounted() {
+		// 当音乐能正常下载时（不是说音乐已经下载完，而是说当前网速能支撑流畅地边下边播），设置Flag为True，使音乐按钮显示
 		this.$refs.bgm_audio.addEventListener("canplaythrough", _ => {
-			// console.log("音乐加载有效！");
 			this.isMusicReadyFlag = true;
 		});
 
+		// 如果5秒后仍未Ready，则仍然显示按钮（防止浏览器不支持canplaythrough特性）
 		setTimeout(_ => {
 			this.isMusicReadyFlag = true;
-			// setInterval(_ => {
-			// 	this.isMusicReadyFlag ^= 1;
-			// }, 1000);
-		}, 2000);
+		}, 5000);
 	},
 	watch: {
+		//监视是否要播放音乐
 		"setting.musicOn"(newMusicOn) {
+			// 1（true）：应当处在播放中的状态
 			if (newMusicOn) {
+				// 先设置音量为0
 				this.$refs.bgm_audio.volume = 0;
+				// 开始播放
 				this.$refs.bgm_audio.play();
-				// console.log("[音乐]播放");
 
+				// 音乐淡入，使用setInterval周期性调大音量
 				var musicFadeInTimer = setInterval(_ => {
 					this.$refs.bgm_audio.volume += 0.01;
+					// 如果音量大于30%，则停止增加（30%的数字来自于PC端和移动端的测试，个人认为是比较合适的音量）
 					if (this.$refs.bgm_audio.volume >= 0.3) clearInterval(musicFadeInTimer);
 				}, 10);
 			} else {
+				// 0（false）：应当处在暂停状态
+				// 音乐淡出
 				var musicFadeOutTimer = setInterval(_ => {
 					this.$refs.bgm_audio.volume -= 0.02;
 					if (this.$refs.bgm_audio.volume <= 0.05) {
+						// 当音量小于5%时，暂停播放
 						clearInterval(musicFadeOutTimer);
 						this.$refs.bgm_audio.pause();
-						// console.log("[音乐]暂停");
 					}
 				}, 10);
 			}

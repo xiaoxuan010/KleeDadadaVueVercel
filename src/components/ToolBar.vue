@@ -1,18 +1,17 @@
 <script>
 export default {
 	props: ["settingReac", "isMusicReadyFlag"],
-	mounted() {
-		// setInterval(_ => {
-		// 	this.settingReac.musicOn ^= 1;
-		// }, 1000);
-	},
 	methods: {
+		// 当按下音乐控制按钮时
 		toggleMusic() {
+			// 反转musicOn变量（使用异或运算优化）
 			this.settingReac.musicOn ^= 1;
-			this.$refs.music_toggle_icon_button.classList.add("button-bounce");
+
+			// 给音乐控制按钮施加动画，动画结束后移除类
+			this.$refs.music_toggle_icon_button.classList.add("button-bounce-big");
 			setTimeout(_ => {
-				this.$refs.music_toggle_icon_button.classList.remove("button-bounce");
-			}, 200);
+				this.$refs.music_toggle_icon_button.classList.remove("button-bounce-big");
+			}, 150);
 		},
 	},
 };
@@ -21,7 +20,9 @@ export default {
 <template>
 	<div class="tool-bar">
 		<Transition name="zoom">
+			<!-- 只有在音乐正常加载时才会显示音乐控制按钮 -->
 			<div v-show="isMusicReadyFlag" class="music-toggle" ref="music_toggle_icon_button" @click="toggleMusic">
+				<!-- musicOn变量决定了显示的图片 -->
 				<img class="tool-bar-icon-button" v-show="settingReac.musicOn" src="../img/music_on.webp" />
 				<img class="tool-bar-icon-button" v-show="!settingReac.musicOn" src="../img/music_off.webp" />
 			</div>
@@ -29,6 +30,7 @@ export default {
 	</div>
 </template>
 <style scoped>
+/* 整个工具栏的位置：固定文档左上角 */
 .tool-bar {
 	position: absolute;
 	top: 1rem;
@@ -37,20 +39,20 @@ export default {
 }
 
 .music-toggle {
+	/* 指定鼠标样式为类似按钮的样式 */
 	cursor: pointer;
+	/* 禁用手机端那个蓝色的按钮提示 */
+	-webkit-tap-highlight-color: transparent;
 }
-.music-toggle > img {
+.music-toggle > .tool-bar-icon-button {
+	/* 自适应按钮大小 */
 	width: clamp(2rem, 1.636rem + 1.82vw, 3rem);
 }
 
-.tremble {
-	animation: shake 40ms ease infinite;
-}
-
 /* 缩放转场 */
-
 .zoom-enter-active,
 .zoom-leave-active {
+	/* 这个只是给vue的Transition作参考的，并不参与实际的动画，设置略小于实际动画时间，防止动画放完会出现鬼畜 */
 	transition: 0.29s;
 }
 .zoom-enter-active > .tool-bar-icon-button {
@@ -71,10 +73,11 @@ export default {
 	}
 }
 
-.button-bounce > img {
-	animation: button-bounce 200ms ease-in-out infinite;
+/* 按钮点击的动画 */
+.button-bounce-big > .tool-bar-icon-button {
+	animation: button-bounce-big 150ms ease-out infinite;
 }
-@keyframes button-bounce {
+@keyframes button-bounce-big {
 	0% {
 		transform: scale(1);
 	}
