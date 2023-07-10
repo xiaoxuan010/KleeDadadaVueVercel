@@ -28,7 +28,7 @@ export default {};
 			</p>
 			<hr />
 			<p>
-				本网站调用<a style="text-decoration: none" target="_blank" href="http://8.130.126.167/yuanshen/webs/KleeWeb/klee.html">原站</a
+				本网站调用<a style="text-decoration: none" target="_blank" href="http:/yuanshenweb.top/yuanshen/webs/KleeWeb/klee.html">原站</a
 				>接口，与其保持数据同步与互通。
 			</p>
 		</div>

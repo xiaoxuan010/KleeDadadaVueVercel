@@ -22,7 +22,7 @@ export default {
 	</div>
 </template>
 
-<style scoped>
+<style>
 .header-container {
 	text-align: center;
 	margin: auto;

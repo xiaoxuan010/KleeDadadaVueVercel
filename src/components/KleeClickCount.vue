@@ -240,6 +240,12 @@ export default {
 				}, 300);
 			};
 
+			// 触发按钮动画
+			this.$refs.counterButton.classList.add("button-bounce");
+			setTimeout(_ => {
+				this.$refs.counterButton.classList.remove("button-bounce");
+			}, 100);
+
 			// 各计数器自增
 			this.thistimecountFromFront++;
 			this.localClickCount++;
@@ -331,9 +337,23 @@ export default {
 	background-color: #a71212;
 }
 
-/* 按钮按起来不太爽，以后得优化 */
+/* 新的按钮按下动画 */
+.button-bounce {
+	animation: button-bounce 100ms ease-in-out infinite;
+}
 .counter-button:active {
-	scale: 0.95;
+	transform: scale(0.95);
+}
+@keyframes button-bounce {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(0.95);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 
 .counter-button span {

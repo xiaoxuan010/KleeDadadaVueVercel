@@ -1,9 +1,10 @@
 <script>
 // 引入自己封装的组件
-import Headers from "./components/header.vue";
-import BeautifiedDivider from "./components/beautifiedDivider.vue";
+import Headers from "./components/Header.vue";
+import BeautifiedDivider from "./components/BeautifiedDivider.vue";
 import KleeClickCount from "./components/KleeClickCount.vue";
-import Footer from "./components/footer.vue";
+import Footer from "./components/Footer.vue";
+import ToolBar from "./components/toolBar.vue";
 
 // 引入Vue方法
 import { reactive } from "vue";
@@ -14,6 +15,7 @@ export default {
 		BeautifiedDivider,
 		KleeClickCount,
 		Footer,
+		ToolBar,
 	},
 	// 声明变量
 	data() {
@@ -21,14 +23,53 @@ export default {
 			setting: reactive({
 				// 类"指针"的变量
 				voiceMode: "0",
+				musicOn: false,
 			}),
+			isMusicReadyFlag: false,
 		};
+	},
+	mounted() {
+		this.$refs.bgm_audio.addEventListener("canplaythrough", _ => {
+			// console.log("音乐加载有效！");
+			this.isMusicReadyFlag = true;
+		});
+
+		setTimeout(_ => {
+			this.isMusicReadyFlag = true;
+			// setInterval(_ => {
+			// 	this.isMusicReadyFlag ^= 1;
+			// }, 1000);
+		}, 2000);
+	},
+	watch: {
+		"setting.musicOn"(newMusicOn) {
+			if (newMusicOn) {
+				this.$refs.bgm_audio.volume = 0;
+				this.$refs.bgm_audio.play();
+				// console.log("[音乐]播放");
+
+				var musicFadeInTimer = setInterval(_ => {
+					this.$refs.bgm_audio.volume += 0.01;
+					if (this.$refs.bgm_audio.volume >= 0.3) clearInterval(musicFadeInTimer);
+				}, 10);
+			} else {
+				var musicFadeOutTimer = setInterval(_ => {
+					this.$refs.bgm_audio.volume -= 0.02;
+					if (this.$refs.bgm_audio.volume <= 0.05) {
+						clearInterval(musicFadeOutTimer);
+						this.$refs.bgm_audio.pause();
+						// console.log("[音乐]暂停");
+					}
+				}, 10);
+			}
+		},
 	},
 };
 </script>
 
 <template>
 	<div class="page-container">
+		<ToolBar :isMusicReadyFlag="isMusicReadyFlag" :settingReac="setting"></ToolBar>
 		<!--主体部分 -->
 		<div class="wrapper">
 			<!-- 给背景图片叠加滤镜 -->
@@ -56,6 +97,11 @@ export default {
 		<!-- 页脚部分 -->
 		<Footer></Footer>
 	</div>
+	<audio loop preload="auto" ref="bgm_audio">
+		<!-- <source src="/src/music/IridescentSummerDay.ogg" type="audio/ogg" /> -->
+		<source src="/src/music/IridescentSummerDay.webm" type="audio/webm" />
+		<source src="/src/music/IridescentSummerDay.mp3" type="audio/mp3" />
+	</audio>
 </template>
 
 <style>
