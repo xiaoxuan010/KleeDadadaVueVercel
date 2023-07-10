@@ -1,9 +1,9 @@
 <script>
 // 引入自己封装的组件
-import Headers from "./components/Header.vue";
-import BeautifiedDivider from "./components/BeautifiedDivider.vue";
-import KleeClickCount from "./components/KleeClickCount.vue";
-import Footer from "./components/Footer.vue";
+import Headers from "./components/header.vue";
+import BeautifiedDivider from "./components/beautifiedDivider.vue";
+import KleeClickCount from "./components/kleeClickCount.vue";
+import Footer from "./components/footer.vue";
 import ToolBar from "./components/toolBar.vue";
 
 // 引入Vue方法
