@@ -67,8 +67,8 @@ export default {
 				// 音乐淡入，使用setInterval周期性调大音量
 				var musicFadeInTimer = setInterval(_ => {
 					this.$refs.bgm_audio.volume += 0.01;
-					// 如果音量大于30%，则停止增加（30%的数字来自于PC端和移动端的测试，个人认为是比较合适的音量）
-					if (this.$refs.bgm_audio.volume >= 0.3) clearInterval(musicFadeInTimer);
+					// 如果音量大于40%，则停止增加（40%的数字来自于PC端和移动端的测试，个人认为是比较合适的音量）
+					if (this.$refs.bgm_audio.volume >= 0.4) clearInterval(musicFadeInTimer);
 				}, 10);
 			} else {
 				// 0（false）：应当处在暂停状态
@@ -118,10 +118,7 @@ export default {
 		<Footer></Footer>
 	</div>
 	<audio loop preload="auto" ref="bgm_audio">
-		<!-- <source src="/src/music/IridescentSummerDay.webm" type="audio/webm" /> -->
-		<!-- <source src="/src/music/IridescentSummerDay.ogg" type="audio/ogg" /> -->
-		<source src="/src/music/IridescentSummerDay.webm" type="audio/webm" />
-		<source src="/src/music/IridescentSummerDay.mp3" type="audio/mp3" />
+		<source src="https://genshin.1752e.com/ys/1/ys_xgkc/resource/sound/bgm.mp3" type="audio/mp3" />
 	</audio>
 </template>
 
