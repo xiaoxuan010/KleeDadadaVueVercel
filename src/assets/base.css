@@ -20,4 +20,5 @@ body {
 @font-face {
 	font-family: "genshin";
 	src: url("../font/ys.woff2") format("woff2"), url("../font/ys.ttf") format("ttf");
+	font-display: swap;
 }

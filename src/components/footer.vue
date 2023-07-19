@@ -7,7 +7,7 @@ export default {};
 <template>
 	<div class="footer" id="footer">
 		<!-- 可莉卡片图片 -->
-		<img class="klee-card" loading="lazy" src="../img/card_cn.webp" alt="" />
+		<img class="klee-card" loading="lazy" width="1513" height="631" src="../img/card_cn.webp" alt="" />
 
 		<!-- 页脚文字部分 -->
 		<div class="footer-text">

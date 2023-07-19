@@ -10,7 +10,7 @@ export default {
 	<div class="header-container">
 		<div class="title-container">
 			<h1 class="page-title">「可莉」哒哒哒~</h1>
-			<img class="title-img shake" alt="Image of Klee" src="../img/favicon.webp" />
+			<img class="title-img shake" width="100" height="100" alt="Image of Klee" src="../img/favicon.webp" />
 		</div>
 
 		<!-- 选择器, 绑定"设置"的voiceMode属性，触发选择时Vue将自动把更改同步到变量 -->
@@ -44,6 +44,7 @@ export default {
 }
 .title-container .title-img {
 	height: clamp(2rem, -3.059rem + 18.82vw, 4rem);
+	width: auto;
 }
 
 /* title旁的小图片的摇动动画 */

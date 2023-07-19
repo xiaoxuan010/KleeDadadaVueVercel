@@ -25,8 +25,20 @@ export default {
 			<!-- 只有在音乐正常加载时才会显示音乐控制按钮 -->
 			<div v-show="isMusicReadyFlag" class="music-toggle" ref="music_toggle_icon_button" @click="toggleMusic">
 				<!-- musicOn变量决定了显示的图片 -->
-				<img class="tool-bar-icon-button" v-show="settingReac.musicOn" src="../img/music_on.webp" />
-				<img class="tool-bar-icon-button" v-show="!settingReac.musicOn" src="../img/music_off.webp" />
+				<img
+					class="tool-bar-icon-button"
+					width="99"
+					height="98"
+					v-show="settingReac.musicOn"
+					src="../img/music_on.webp"
+					alt="music on" />
+				<img
+					class="tool-bar-icon-button"
+					width="99"
+					height="98"
+					v-show="!settingReac.musicOn"
+					src="../img/music_off.webp"
+					alt="music off" />
 			</div>
 		</Transition>
 	</div>
@@ -49,6 +61,7 @@ export default {
 .music-toggle > .tool-bar-icon-button {
 	/* 自适应按钮大小 */
 	width: clamp(2rem, 1.636rem + 1.82vw, 3rem);
+	height: auto;
 }
 
 /* 缩放转场 */

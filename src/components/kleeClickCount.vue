@@ -37,28 +37,35 @@ export default {
 		// 封装函数：更新全球计数数据
 		let updateClickTimesData = async () => {
 			// 向Vercel Serverless Function发送请求，由后端代发至原站
-			var res = await fetch(`/api/getKleeGlobalcounts?thistimecountFromFront=${this.thistimecountFromFront}`);
+			fetch(`/api/getKleeGlobalcounts?thistimecountFromFront=${this.thistimecountFromFront}`)
+				// 后端发回的数据转换为JavaScript Object
+				.then(res => {
+					if (res.ok) return res.json();
+					else throw new Error("Response not OK");
+				})
+				.then(resObj => {
+					// 数据格式化
+					var resKleeClickTimes = parseInt(resObj.data.KleeClickTimes);
 
-			// 后端发回的数据转换为JavaScript Object
-			var resObj = await res.json();
+					// 向控制台打印后端返回的数据，作测试用
+					// console.debug("[globalClickCount]", this.globalClickCount);
+					// 如果后端返回的数据和前端差异较大，则更新前端显示的数字
+					if (resKleeClickTimes - parseInt(this.globalClickCount || 0) >= 10 || !this.thistimecountFromFront) {
+						// 更新前端时会加上用户已经点击的次数，虽然理论上thistimecountFromFront几乎一定为0（几微秒的时间应该不会有人能点到吧 ← 啥笔，fetch少说也得1秒钟，够点好多下了，哪里止几微秒
 
-			// 执行到这一步说明后端正常返回了数据
-			// PS：其实应当校验response的code是否为0，但是目前后端仅有正常和503两种状态，暂时不需要校验
+						// globalClickCount相当于一个基本值，后续显示的时候再加上thistimecountFromFront.
+						this.globalClickCount = resKleeClickTimes;
+					} else {
+						// 如果不满足数据更新条件，则只加上本地的次数.
+						this.globalClickCount += this.thistimecountFromFront;
+					}
 
-			// 数据格式化
-			var resKleeClickTimes = parseInt(resObj.data.KleeClickTimes);
-
-			// 向控制台打印后端返回的数据，作测试用
-			// console.debug("[globalClickCount]", this.globalClickCount);
-
-			// 如果后端返回的数据和前端差异较大，则更新前端显示的数字
-			if (resKleeClickTimes - parseInt(this.globalClickCount || 0) >= 10 || !this.thistimecountFromFront) {
-				// 更新前端时会加上用户已经点击的次数，虽然理论上thistimecountFromFront几乎一定为0（几微秒的时间应该不会有人能点到吧
-				this.globalClickCount = resKleeClickTimes + this.thistimecountFromFront;
-			}
-
-			// 重置区间计数
-			this.thistimecountFromFront = 0;
+					// 重置区间计数
+					this.thistimecountFromFront = 0;
+				})
+				.catch(err => {
+					console.warn("检测到失败的Fetch请求：", err);
+				});
 		};
 
 		// 自动刷新一次计数器
@@ -249,7 +256,7 @@ export default {
 			// 各计数器自增
 			this.thistimecountFromFront++;
 			this.localClickCount++;
-			this.globalClickCount++;
+			// this.globalClickCount++;
 
 			// 触发ripple
 			triggerRipple(event);
@@ -271,7 +278,7 @@ export default {
 				ref="globalCounterNumRoller"
 				class="global-counter-num-roller"
 				v-if="rollerRefresh"
-				:value="(globalClickCount || 0).toString()"
+				:value="(globalClickCount + thistimecountFromFront || 0).toString()"
 				defaultValue="0"
 				:duration="200"></Roller>
 		</div>
