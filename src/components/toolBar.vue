@@ -6,7 +6,9 @@ export default {
 		toggleMusic() {
 			// 反转musicOn变量（使用异或运算优化）
 			this.settingReac.musicOn ^= 1;
-
+			this.toggleMusicButtonAnimation();
+		},
+		toggleMusicButtonAnimation() {
 			// 给音乐控制按钮施加动画，动画结束后移除类
 			this.$refs.music_toggle_icon_button.classList.add("button-bounce-big");
 			setTimeout(_ => {

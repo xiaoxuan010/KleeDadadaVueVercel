@@ -35,6 +35,20 @@ export default {
 			this.isMusicReadyFlag = true;
 		});
 
+		// 检测到音乐切换到播放状态（可能经由系统控制）
+		this.$refs.bgm_audio.addEventListener("play", _ => {
+			this.setting.musicOn = true;
+			this.$refs.toolBar.toggleMusicButtonAnimation();
+			// console.debug("[bgm]检测到音乐播放");
+		});
+
+		// 检测到音乐切换到暂停状态（可能经由系统控制）
+		this.$refs.bgm_audio.addEventListener("pause", _ => {
+			this.setting.musicOn = false;
+			this.$refs.toolBar.toggleMusicButtonAnimation();
+			// console.debug("[bgm]检测到音乐暂停");
+		});
+
 		// 如果5秒后仍未Ready，则仍然显示按钮（防止浏览器不支持canplaythrough特性）
 		setTimeout(_ => {
 			this.isMusicReadyFlag = true;
@@ -75,7 +89,7 @@ export default {
 
 <template>
 	<div class="page-container">
-		<ToolBar :isMusicReadyFlag="isMusicReadyFlag" :settingReac="setting"></ToolBar>
+		<ToolBar ref="toolBar" :isMusicReadyFlag="isMusicReadyFlag" :settingReac="setting"></ToolBar>
 		<!--主体部分 -->
 		<div class="wrapper">
 			<!-- 给背景图片叠加滤镜 -->
@@ -104,6 +118,7 @@ export default {
 		<Footer></Footer>
 	</div>
 	<audio loop preload="auto" ref="bgm_audio">
+		<!-- <source src="/src/music/IridescentSummerDay.webm" type="audio/webm" /> -->
 		<!-- <source src="/src/music/IridescentSummerDay.ogg" type="audio/ogg" /> -->
 		<source src="/src/music/IridescentSummerDay.webm" type="audio/webm" />
 		<source src="/src/music/IridescentSummerDay.mp3" type="audio/mp3" />
