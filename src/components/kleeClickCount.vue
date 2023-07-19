@@ -37,16 +37,13 @@ export default {
 		// 封装函数：更新全球计数数据
 		let updateClickTimesData = async () => {
 			// 向Vercel Serverless Function发送请求，由后端代发至原站
-			var res = await fetch(`/api/getKleeGlobalcounts?getKleeGlobalcounts=${this.thistimecountFromFront}`);
+			var res = await fetch(`/api/getKleeGlobalcounts?thistimecountFromFront=${this.thistimecountFromFront}`);
 
 			// 后端发回的数据转换为JavaScript Object
 			var resObj = await res.json();
 
 			// 执行到这一步说明后端正常返回了数据
 			// PS：其实应当校验response的code是否为0，但是目前后端仅有正常和503两种状态，暂时不需要校验
-
-			// 重置区间计数
-			this.thistimecountFromFront = 0;
 
 			// 数据格式化
 			var resKleeClickTimes = parseInt(resObj.data.KleeClickTimes);
@@ -55,10 +52,13 @@ export default {
 			// console.debug("[globalClickCount]", this.globalClickCount);
 
 			// 如果后端返回的数据和前端差异较大，则更新前端显示的数字
-			if (resKleeClickTimes - parseInt(this.globalClickCount || 0) >= 10) {
+			if (resKleeClickTimes - parseInt(this.globalClickCount || 0) >= 10 || !this.thistimecountFromFront) {
 				// 更新前端时会加上用户已经点击的次数，虽然理论上thistimecountFromFront几乎一定为0（几微秒的时间应该不会有人能点到吧
 				this.globalClickCount = resKleeClickTimes + this.thistimecountFromFront;
 			}
+
+			// 重置区间计数
+			this.thistimecountFromFront = 0;
 		};
 
 		// 自动刷新一次计数器
