@@ -37,7 +37,7 @@ export default {
 		// 封装函数：更新全球计数数据
 		let updateClickTimesData = async () => {
 			// 向Vercel Serverless Function发送请求，由后端代发至原站
-			fetch(`/api/getKleeGlobalcounts?thistimecountFromFront=${this.thistimecountFromFront}`)
+			fetch(`/api/edge/getKleeGlobalcounts?thistimecountFromFront=${this.thistimecountFromFront}`)
 				// 后端发回的数据转换为JavaScript Object
 				.then(res => {
 					if (res.ok) return res.json();
@@ -49,8 +49,8 @@ export default {
 
 					// 向控制台打印后端返回的数据，作测试用
 					// console.debug("[globalClickCount]", this.globalClickCount);
-					// 如果后端返回的数据和前端差异较大，则更新前端显示的数字
-					if (resKleeClickTimes - parseInt(this.globalClickCount || 0) >= 10 || !this.thistimecountFromFront) {
+					// 如果后端返回的数据比前端大，则更新前端显示的数字
+					if (resKleeClickTimes > parseInt(this.globalClickCount || 0)) {
 						// 更新前端时会加上用户已经点击的次数，虽然理论上thistimecountFromFront几乎一定为0（几微秒的时间应该不会有人能点到吧 ← 啥笔，fetch少说也得1秒钟，够点好多下了，哪里止几微秒
 
 						// globalClickCount相当于一个基本值，后续显示的时候再加上thistimecountFromFront.
