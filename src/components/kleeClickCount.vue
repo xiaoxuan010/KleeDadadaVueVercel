@@ -37,7 +37,7 @@ export default {
 		// 封装函数：更新全球计数数据
 		let updateClickTimesData = async () => {
 			// 向Vercel Serverless Function发送请求，由后端代发至原站
-			fetch(`/api/edge/getKleeGlobalcounts?thistimecountFromFront=${this.thistimecountFromFront}`)
+			fetch(`/api/getKleeGlobalcounts?thistimecountFromFront=${this.thistimecountFromFront}`)
 				// 后端发回的数据转换为JavaScript Object
 				.then(res => {
 					if (res.ok) return res.json();
