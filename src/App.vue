@@ -110,14 +110,14 @@ export default {
 				<p class="page-description">给可莉酱写的小网站，对，就是那个<del>烦人的</del>最可爱的《原神》角色！</p>
 
 				<!-- 计数器及按钮等 -->
-				<KleeClickCount :setting-reac="setting" />
+				<KleeClickCount :setting-reac="setting" @first-click-button="this.$refs.bgm_audio.play()" />
 			</div>
 		</div>
 
 		<!-- 页脚部分 -->
 		<Footer></Footer>
 	</div>
-	<audio loop preload="auto" ref="bgm_audio">
+	<audio loop preload="auto" ref="bgm_audio" autoplay>
 		<source src="https://genshin.1752e.com/ys/1/ys_xgkc/resource/sound/bgm.mp3" type="audio/mp3" />
 	</audio>
 </template>

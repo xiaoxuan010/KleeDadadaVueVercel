@@ -49,8 +49,8 @@ export default {
 
 					// 向控制台打印后端返回的数据，作测试用
 					// console.debug("[globalClickCount]", this.globalClickCount);
-					// 如果后端返回的数据和前端差异较大，则更新前端显示的数字
-					if (resKleeClickTimes - parseInt(this.globalClickCount || 0) >= 10 || !this.thistimecountFromFront) {
+					// 如果后端返回的数据比前端大，则更新前端显示的数字
+					if (resKleeClickTimes > parseInt(this.globalClickCount || 0)) {
 						// 更新前端时会加上用户已经点击的次数，虽然理论上thistimecountFromFront几乎一定为0（几微秒的时间应该不会有人能点到吧 ← 啥笔，fetch少说也得1秒钟，够点好多下了，哪里止几微秒
 
 						// globalClickCount相当于一个基本值，后续显示的时候再加上thistimecountFromFront.
@@ -177,37 +177,18 @@ export default {
 				"../audio/General/Egg_HLlalala_General.mp3",
 				"../audio/General/Egg_HLdadada_General.mp3",
 			];
+
 			var audioUrl;
-
-			//根据当前模式获取符合模式语音的 AudioURL
-			switch (currentVoiceMode) {
-				//curMode==0  默认模式
-				case "0":
-					if (this.isFirstTimePlayVoice) {
-						//随机获取一个音频的URL，第一个必定是哒哒哒
-						this.isFirstTimePlayVoice = false;
-						audioUrl = audioList[1]; //First play fixed Dadada
-					} else {
-						audioUrl = getRandomAudioUrl(currentVoiceMode);
-					}
-
-					break;
-
-				//curMode==1  只哒哒哒
-				case "1":
-					audioUrl = audioList[1];
-					break;
-
-				//cueMode==2   彩蛋
-				case "2":
-					if (this.isFirstTimePlayVoice == true) {
-						//随机获取一个音频的URL，第一个必定是哒哒哒
-						this.isFirstTimePlayVoice = false;
-						audioUrl = audioList[1]; //First play fixed Dadada
-					} else {
-						audioUrl = getRandomAudioUrl(currentVoiceMode);
-					}
-					break;
+			//第一个必定是哒哒哒
+			//First play fixed to 'Dadada'
+			if (this.isFirstTimePlayVoice || currentVoiceMode == "1") {
+				this.isFirstTimePlayVoice = false;
+				audioUrl = audioList[1];
+				this.$emit("FirstClickButton");
+			} else if (currentVoiceMode == "0" || currentVoiceMode == "2") {
+				audioUrl = getRandomAudioUrl(currentVoiceMode);
+			} else {
+				audioUrl = audioList[1];
 			}
 
 			//根据音频URL从本地获取音频资源。

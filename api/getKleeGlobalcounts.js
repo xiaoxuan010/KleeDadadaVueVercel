@@ -40,7 +40,7 @@ export default function handler(request, response) {
 				.catch(err => {
 					// 向前端返回502并发送错误信息
 					response.status(502).json({
-						code: 503,
+						code: 502,
 						msg: "Server Error",
 						err,
 					});
